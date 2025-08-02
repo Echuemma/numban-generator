@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Listbox, Transition } from '@headlessui/react';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../app/store';
 import { generateNubanAsync } from '../store/nubanSlice';
@@ -29,6 +30,7 @@ export const NubanGenerator: React.FC = () => {
     }
     return { code: '', name: 'No banks available' };
   });
+  const [bankSearch, setBankSearch] = useState('');
   
   const [activeTab, setActiveTab] = useState<'generate' | 'validate'>('generate');
   const [copiedId, setCopiedId] = useState<string | null>(null);
@@ -124,28 +126,72 @@ export const NubanGenerator: React.FC = () => {
 
             <div className="space-y-6">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Select Bank
-                </label>
-                <select
-                  value={selectedBank?.code || ''}
-                  onChange={(e) => {
-                    const bank = Array.isArray(NIGERIAN_BANKS) ? 
-                      NIGERIAN_BANKS.find(b => b.code === e.target.value) : null;
-                    if (bank) {
-                      console.log('Bank selected:', bank);
-                      setSelectedBank(bank);
-                    }
-                  }}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  disabled={isGenerating}
-                >
-                  {Array.isArray(NIGERIAN_BANKS) && NIGERIAN_BANKS.map(bank => (
-                    <option key={bank.code} value={bank.code}>
-                      {bank.name} ({bank.code})
-                    </option>
-                  ))}
-                </select>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Select Bank</label>
+                <Listbox value={selectedBank} onChange={setSelectedBank} disabled={isGenerating}>
+                  {({ open }) => (
+                    <div className="relative">
+                      <Listbox.Button className="w-full px-3 py-2 border border-gray-300 rounded-md bg-white text-left focus:outline-none focus:ring-2 focus:ring-blue-500 flex items-center justify-between">
+                        <span className="block truncate">{selectedBank?.name} ({selectedBank?.code})</span>
+                        <svg className="w-4 h-4 ml-2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" /></svg>
+                      </Listbox.Button>
+                      <Transition
+                        show={open}
+                        as={React.Fragment}
+                        enter="transition ease-out duration-100"
+                        enterFrom="transform opacity-0 scale-95"
+                        enterTo="transform opacity-100 scale-100"
+                        leave="transition ease-in duration-75"
+                        leaveFrom="transform opacity-100 scale-100"
+                        leaveTo="transform opacity-0 scale-95"
+                      >
+                        <div className="absolute z-10 mt-1 w-full rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                          <div className="px-3 py-2 border-b border-gray-100">
+                            <input
+                              type="text"
+                              className="w-full px-2 py-1 border border-gray-200 rounded focus:outline-none focus:ring-1 focus:ring-blue-500 text-sm"
+                              placeholder="Search bank..."
+                              value={bankSearch}
+                              onChange={e => setBankSearch(e.target.value)}
+                              autoFocus
+                            />
+                          </div>
+                          <Listbox.Options className="max-h-60 overflow-auto py-1 text-base sm:text-sm">
+                            {Array.isArray(NIGERIAN_BANKS) && NIGERIAN_BANKS.filter(bank =>
+                              bank.name.toLowerCase().includes(bankSearch.toLowerCase()) ||
+                              bank.code.toLowerCase().includes(bankSearch.toLowerCase())
+                            ).length === 0 ? (
+                              <div className="px-4 py-2 text-gray-500">No banks found.</div>
+                            ) : (
+                              Array.isArray(NIGERIAN_BANKS) && NIGERIAN_BANKS.filter(bank =>
+                                bank.name.toLowerCase().includes(bankSearch.toLowerCase()) ||
+                                bank.code.toLowerCase().includes(bankSearch.toLowerCase())
+                              ).map((bank) => (
+                                <Listbox.Option
+                                  key={bank.code}
+                                  value={bank}
+                                  className={({ active }) =>
+                                    `cursor-pointer select-none relative py-2 pl-3 pr-9 flex items-center gap-2 ${active ? 'bg-blue-100 text-blue-900' : 'text-gray-900'}`
+                                  }
+                                >
+                                  {({ selected, active }) => (
+                                    <>
+                                      <span className={`block truncate ${selected ? 'font-semibold' : 'font-normal'}`}>{bank.name} <span className="text-xs text-gray-400">({bank.code})</span></span>
+                                      {selected ? (
+                                        <span className={`absolute inset-y-0 right-0 flex items-center pr-4 ${active ? 'text-blue-600' : 'text-blue-600'}`}>
+                                          <CheckCircle className="w-4 h-4" />
+                                        </span>
+                                      ) : null}
+                                    </>
+                                  )}
+                                </Listbox.Option>
+                              ))
+                            )}
+                          </Listbox.Options>
+                        </div>
+                      </Transition>
+                    </div>
+                  )}
+                </Listbox>
               </div>
               <Button
                 onClick={handleGenerate}
