@@ -181,13 +181,24 @@ export const mockApiService = {
     await delay(300 + Math.random() * 200)
 
     try {
-      const banks: BankInfo[] = Object.entries(NIGERIAN_BANKS).map(([code, info]) => ({
-        code,
-        name: info.name,
-        shortName: info.shortName || info.name,
-        established: faker.date.past({ years: 50 }).getFullYear().toString(),
-        headquarters: 'Lagos, Nigeria' 
-      }))
+      const banks: BankInfo[] = Object.entries(NIGERIAN_BANKS).map(([code, info]) => {
+        if (!info || typeof info.name !== 'string') {
+          return {
+            code,
+            name: 'Unknown Bank',
+            shortName: 'Unknown Bank',
+            established: faker.date.past({ years: 50 }).getFullYear().toString(),
+            headquarters: 'Lagos, Nigeria'
+          };
+        }
+        return {
+          code,
+          name: info.name,
+          shortName: info.shortName || info.name,
+          established: faker.date.past({ years: 50 }).getFullYear().toString(),
+          headquarters: 'Lagos, Nigeria'
+        };
+      });
 
       return {
         success: true,

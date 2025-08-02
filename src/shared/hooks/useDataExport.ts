@@ -1,6 +1,7 @@
  // src/shared/hooks/useDataExport.ts
 
 import { useState } from 'react';
+import { ValidationRecord } from '../../features/validation/types/validation.types';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../app/store';
 import { StorageService } from '../services/storageService';
@@ -11,8 +12,8 @@ export const useDataExport = () => {
   const [isExporting, setIsExporting] = useState(false);
   const [isImporting, setIsImporting] = useState(false);
 
-  const nubanHistory = useSelector((state: RootState) => state.nuban.history);
-  const validationHistory = useSelector((state: RootState) => state.validation.history);
+  const nubanHistory = useSelector((state: RootState) => state.nuban.generated);
+  const validationHistory = useSelector((state: RootState) => state.validation.history) as ValidationRecord[];
 
   const exportToFile = async (format: 'json' | 'csv' = 'json') => {
     setIsExporting(true);
@@ -82,7 +83,7 @@ export const useDataExport = () => {
       'Generated'
     ]);
 
-    validationHistory.forEach((validation: { nuban: any; bankCode: any; bankName: any; validatedAt: string | number | Date; isValid: any; }) => {
+    validationHistory.forEach((validation: ValidationRecord) => {
       rows.push([
         validation.nuban,
         validation.bankCode || 'N/A',

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { ValidationRecord } from '../types/validation.types';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../../app/store';
 import { clearHistory, removeValidation } from '../store/validationSlice';
@@ -29,7 +30,7 @@ export const ValidationHistory: React.FC = () => {
 
   // Filter and sort history
   const filteredHistory = history
-    .filter((item: { nuban: string; bankName: string; isValid: any; }) => {
+    .filter((item: ValidationRecord) => {
       const matchesSearch = item.nuban.toLowerCase().includes(searchTerm.toLowerCase()) ||
         (item.bankName && item.bankName.toLowerCase().includes(searchTerm.toLowerCase()));
       const matchesFilter = filterStatus === 'all' ||
@@ -37,9 +38,8 @@ export const ValidationHistory: React.FC = () => {
         (filterStatus === 'invalid' && !item.isValid);
       return matchesSearch && matchesFilter;
     })
-    .sort((a: { validatedAt: string | number | Date; nuban: string; isValid: any; }, b: { validatedAt: string | number | Date; nuban: any; isValid: any; }) => {
+    .sort((a: ValidationRecord, b: ValidationRecord) => {
       let comparison = 0;
-
       switch (sortBy) {
         case 'date':
           comparison = new Date(a.validatedAt).getTime() - new Date(b.validatedAt).getTime();
@@ -51,7 +51,6 @@ export const ValidationHistory: React.FC = () => {
           comparison = (a.isValid ? 1 : 0) - (b.isValid ? 1 : 0);
           break;
       }
-
       return sortOrder === 'asc' ? comparison : -comparison;
     });
 
@@ -67,7 +66,7 @@ export const ValidationHistory: React.FC = () => {
 
   const exportHistoryToCSV = () => {
     const headers = ['NUBAN', 'Bank Code', 'Bank Name', 'Valid', 'Reason', 'Validated At'];
-    const rows = filteredHistory.map((item: { nuban: any; bankCode: any; bankName: any; isValid: any; reason: any; validatedAt: string | number | Date; }) => [
+    const rows = filteredHistory.map((item: ValidationRecord) => [
       item.nuban,
       item.bankCode || 'N/A',
       item.bankName || 'N/A',
@@ -255,7 +254,7 @@ export const ValidationHistory: React.FC = () => {
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
-              {filteredHistory.map((validation: { id: string; nuban: string | number | bigint | boolean | React.ReactElement<unknown, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | Promise<string | number | bigint | boolean | React.ReactPortal | React.ReactElement<unknown, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | null | undefined> | null | undefined; bankName: any; bankCode: string | number | bigint | boolean | React.ReactElement<unknown, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | Promise<string | number | bigint | boolean | React.ReactPortal | React.ReactElement<unknown, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | null | undefined> | null | undefined; isValid: any; reason: any; validatedAt: string | number | Date; }) => (
+              {filteredHistory.map((validation: ValidationRecord) => (
                 <tr key={validation.id} className="hover:bg-gray-50">
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="text-sm font-mono font-medium text-gray-900">

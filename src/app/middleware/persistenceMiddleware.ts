@@ -1,6 +1,6 @@
 // src/app/middleware/persistenceMiddleware.ts
 
-import { Middleware, UnknownAction } from '@reduxjs/toolkit';
+import { Middleware } from '@reduxjs/toolkit';
 import { StorageService } from '../../shared/services/storageService';
 
 const storage = StorageService.getInstance();
