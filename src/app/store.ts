@@ -9,8 +9,8 @@ const storage = StorageService.getInstance();
 
 function loadPersistedState() {
   try {
-    const persistedState = storage.getItem('app_state');
-    if (persistedState && typeof persistedState === 'object') {
+ const persistedState = storage.getItem('app_state') as any;
+if (persistedState && typeof persistedState === 'object') {
       console.log('Rehydrating state from storage');
       
       const validatedState: any = {};

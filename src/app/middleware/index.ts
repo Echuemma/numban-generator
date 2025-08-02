@@ -3,7 +3,7 @@ import { Middleware } from '@reduxjs/toolkit'
 // Remove the circular import - don't import RootState here
 // Use generic typing instead since we don't need the specific state shape in middleware
 
-const loggerMiddleware: Middleware = (store) => (next) => (action) => {
+const loggerMiddleware: Middleware = (store) => (next) => (action: any) => {
   if (import.meta.env.DEV) {
     console.group(`🚀 Action: ${action.type}`)
     console.log('Previous State:', store.getState())
@@ -20,7 +20,7 @@ const loggerMiddleware: Middleware = (store) => (next) => (action) => {
   return result
 }
 
-const performanceMiddleware: Middleware = () => (next) => (action) => {
+const performanceMiddleware: Middleware = () => (next) => (action: any) => {
   const start = performance.now()
   const result = next(action)
   const end = performance.now()
@@ -33,7 +33,7 @@ const performanceMiddleware: Middleware = () => (next) => (action) => {
   return result
 }
 
-const errorMiddleware: Middleware = () => (next) => (action) => {
+const errorMiddleware: Middleware = () => (next) => (action: any) => {
   try {
     return next(action)
   } catch (error) {
