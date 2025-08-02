@@ -21,6 +21,11 @@ export default defineConfig({
       '@/hooks': path.resolve(__dirname, './src/shared/hooks'),
     },
   },
+  // Add this to define process for browser environment
+  define: {
+    'process.env': JSON.stringify(process.env),
+    global: 'globalThis',
+  },
   server: {
     port: 3000,
     open: true,

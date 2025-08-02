@@ -1,4 +1,4 @@
- // src/features/nuban/types/nuban.types.ts
+// src/features/nuban/types/nuban.types.ts
 import { BaseApiState } from '@/shared/types/api.types'
 
 export interface Bank {
@@ -61,9 +61,11 @@ export interface NubanFilters {
 }
 
 export interface NubanState extends BaseApiState {
-  isLoading: any
-  isGenerating: any
-  isValidating: any
+  // Fixed: Changed from 'any' to 'boolean'
+  isLoading: boolean
+  isGenerating: boolean
+  isValidating: boolean
+  
   // Data
   accounts: NubanAccount[]
   banks: Bank[]
