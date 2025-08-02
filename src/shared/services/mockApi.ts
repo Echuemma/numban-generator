@@ -182,7 +182,8 @@ export const mockApiService = {
 
     try {
       const banks: BankInfo[] = Object.entries(NIGERIAN_BANKS).map(([code, info]) => {
-        if (!info || typeof info.name !== 'string') {
+        const bankInfo = info as BankInfo | undefined;
+        if (!bankInfo || typeof bankInfo.name !== 'string') {
           return {
             code,
             name: 'Unknown Bank',
@@ -193,8 +194,8 @@ export const mockApiService = {
         }
         return {
           code,
-          name: typeof info.name === 'string' ? info.name : 'Unknown Bank',
-          shortName: typeof info.shortName === 'string' ? info.shortName : (typeof info.name === 'string' ? info.name : 'Unknown Bank'),
+          name: typeof bankInfo.name === 'string' ? bankInfo.name : 'Unknown Bank',
+          shortName: typeof bankInfo.shortName === 'string' ? bankInfo.shortName : (typeof bankInfo.name === 'string' ? bankInfo.name : 'Unknown Bank'),
           established: faker.date.past({ years: 50 }).getFullYear().toString(),
           headquarters: 'Lagos, Nigeria'
         };
