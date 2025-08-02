@@ -12,7 +12,7 @@ export const useDataExport = () => {
   const [isExporting, setIsExporting] = useState(false);
   const [isImporting, setIsImporting] = useState(false);
 
-  const nubanHistory = useSelector((state: RootState) => state.nuban.generated);
+  const nubanHistory = useSelector((state: RootState) => state.nuban.history);
   const validationHistory = useSelector((state: RootState) => state.validation.history) as ValidationRecord[];
 
   const exportToFile = async (format: 'json' | 'csv' = 'json') => {

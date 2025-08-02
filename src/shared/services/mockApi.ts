@@ -193,8 +193,8 @@ export const mockApiService = {
         }
         return {
           code,
-          name: info.name,
-          shortName: info.shortName || info.name,
+          name: typeof info.name === 'string' ? info.name : 'Unknown Bank',
+          shortName: typeof info.shortName === 'string' ? info.shortName : (typeof info.name === 'string' ? info.name : 'Unknown Bank'),
           established: faker.date.past({ years: 50 }).getFullYear().toString(),
           headquarters: 'Lagos, Nigeria'
         };
