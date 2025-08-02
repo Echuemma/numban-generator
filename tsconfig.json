@@ -51,8 +51,9 @@
   ],
   "exclude": [
     "node_modules",
-    "dist",
-    "build"
+    "vite.config.ts",
+    "postcss.config.js",
+    "tailwind.config.js"
   ],
   "references": [
     { "path": "./tsconfig.node.json" }
