@@ -74,6 +74,18 @@ export interface NubanState extends BaseApiState {
   // Generation state
   generationHistory: NubanAccount[]
   lastGenerated: NubanAccount | null
+
+  /**
+   * History of generated NUBANs for export and audit
+   */
+  history: Array<{
+    accountNumber: string;
+    bankCode: string;
+    bankName: string;
+    serialNumber: string;
+    checkDigit: number;
+    generatedAt: string | number | Date;
+  }>;
   
   // Validation state
   validationResults: Record<string, NubanValidationResult>

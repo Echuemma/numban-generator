@@ -1,5 +1,3 @@
- // src/shared/hooks/useDataExport.ts
-
 import { useState } from 'react';
 import { ValidationRecord } from '../../features/validation/types/validation.types';
 import { useSelector } from 'react-redux';
@@ -12,7 +10,15 @@ export const useDataExport = () => {
   const [isExporting, setIsExporting] = useState(false);
   const [isImporting, setIsImporting] = useState(false);
 
-  const nubanHistory = useSelector((state: RootState) => state.nuban.history);
+  type NubanHistoryItem = {
+    accountNumber: string;
+    bankCode: string;
+    bankName: string;
+    serialNumber: string;
+    checkDigit: number;
+    generatedAt: string | number | Date;
+  };
+  const nubanHistory = useSelector((state: RootState) => state.nuban.history) as NubanHistoryItem[];
   const validationHistory = useSelector((state: RootState) => state.validation.history) as ValidationRecord[];
 
   const exportToFile = async (format: 'json' | 'csv' = 'json') => {

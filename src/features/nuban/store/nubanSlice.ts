@@ -13,6 +13,7 @@ const initialState: NubanState = {
   
   generationHistory: [],
   lastGenerated: null,
+  history: [],
   isGenerating: false,
   
   validationResults: {},
