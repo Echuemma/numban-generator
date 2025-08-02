@@ -9,7 +9,7 @@ const storage = StorageService.getInstance();
 const PERSISTABLE_SLICES = ['nuban', 'validation', 'filters', 'ui'] as const;
 
 export const persistenceMiddleware: Middleware = 
-  (store) => (next) => (action: UnknownAction) => {
+  (store) => (next) => (action: any) => {
     const result = next(action);
     
     // Don't persist during hydration or initialization
