@@ -1,4 +1,3 @@
-// src/shared/components/layout/Layout.tsx
 import React from 'react'
 import { useAppSelector } from '@/shared/hooks/redux'
 import { selectUiState } from '@/features/ui/store/uiSlice'
@@ -16,7 +15,7 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col sm:flex-row items-center sm:justify-between h-auto sm:h-16 py-2 sm:py-0">
             <div className="flex flex-col sm:flex-row items-center">
-              <h1 className="text-lg sm:text-2xl font-bold text-gray-900 text-center sm:text-left">
+              <h1 className="text-lg sm:text-2xl font-bold text-green-700 text-center sm:text-left">
                 NUBAN Manager
               </h1>
               <span className="ml-0 sm:ml-2 mt-2 sm:mt-0 px-2 py-1 text-xs sm:text-sm bg-blue-100 text-blue-800 rounded-full">

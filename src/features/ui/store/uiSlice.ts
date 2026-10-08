@@ -183,7 +183,7 @@ export const {
 
 export default uiSlice.reducer
 
-  export const selectUiState = (state: { ui: UiState }) => state.ui
+export const selectUiState = (state: { ui: UiState }) => state.ui
 export const selectTheme = (state: { ui: UiState }) => state.ui.theme
 export const selectSidebarCollapsed = (state: { ui: UiState }) => state.ui.sidebarCollapsed
 export const selectActiveModal = (state: { ui: UiState }) => state.ui.activeModal

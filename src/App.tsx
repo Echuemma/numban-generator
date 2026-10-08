@@ -31,7 +31,7 @@ function App() {
       case 'data':
         return <div data-aos="fade-up"><DataManagement /></div>;
       case 'settings':
-        return <div className="p-6 text-center text-gray-500" data-aos="fade-up">Settings panel coming soon...</div>;
+        return <div className="p-6 text-center text-gray-500">Settings panel coming soon...</div>;
       default:
         return <div data-aos="fade-up"><NubanGenerator /></div>;
     }
@@ -41,7 +41,6 @@ function App() {
     <Provider store={store}>
       <div className="min-h-screen bg-gray-50">
         <Layout>
-          {/* Tab Navigation */}
           <div className="bg-white border-b border-gray-200 mb-6">
             <div className="flex overflow-x-auto whitespace-nowrap space-x-4 sm:space-x-8 no-scrollbar">
               {tabs.map((tab) => {
@@ -64,7 +63,6 @@ function App() {
             </div>
           </div>
 
-          {/* Tab Content */}
           <div className="animate-in fade-in duration-200">
             {renderActiveTab()}
           </div>
